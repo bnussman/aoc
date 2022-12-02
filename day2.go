@@ -100,49 +100,32 @@ func part2() {
 
 		lineValues := strings.Split(line, " ")
 
-		letterToPlayMap := map[string]string{"A": "rock", "B": "paper", "C": "scissors"}
+		letterToPlay := map[string]string{"A": "rock", "B": "paper", "C": "scissors"}
+		points := map[string]int{"rock": 1, "paper": 2, "scissors": 3}
+		beats := map[string]string{"rock": "scissors", "paper": "rock", "scissors": "paper"}
+		loses := map[string]string{"rock": "paper", "paper": "scissors", "scissors": "rock"}
 
 		// A for Rock
 		// B for Paper
 		// C for Scissors
-		elf := letterToPlayMap[lineValues[0]]
-
-		// letterMap := map[string]string{"X": "A", "Y": "B", "Z": "C"}
-
-		pointsMap := map[string]int{"rock": 1, "paper": 2, "scissors": 3}
+		elf := letterToPlay[lineValues[0]]
 
 		// X for Rock
 		// Y for Paper
 		// Z for Scissors
 		myLetter := lineValues[1]
 
-		// me := letterToPlayMap[letterMap[myLetter]]
-
 		switch myLetter {
 		case "X":
 			// I need to loose
-			if elf == "rock" {
-				score += pointsMap["scissors"]
-			} else if elf == "paper" {
-				score += pointsMap["rock"]
-			} else {
-				score += pointsMap["paper"]
-			}
+			score += points[beats[elf]]
 		case "Y":
 			// I need to tie
-			score += pointsMap[elf] + 3
+			score += points[elf] + 3
 		case "Z":
 			// I need to win
-			if elf == "rock" {
-				score += pointsMap["paper"]
-			} else if elf == "paper" {
-				score += pointsMap["scissors"]
-			} else {
-				score += pointsMap["rock"]
-			}
-			score += 6
+			score += points[loses[elf]] + 6
 		}
-
 	}
 
 	fmt.Println(score)
