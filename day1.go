@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func main() {
+func day1() {
 	path, _ := filepath.Abs("./inputs/day1")
 
 	file, err := os.Open(path)
