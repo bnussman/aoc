@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func main() {
+func day2() {
 	part1()
 	part2()
 }
