@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func day4a() {
+func main() {
 	path, _ := filepath.Abs("./inputs/day4")
 
 	file, err := os.Open(path)
@@ -33,7 +33,7 @@ func day4a() {
 		firstPairMax, _ := strconv.Atoi(firstRange[1])
 		secondPairMax, _ := strconv.Atoi(secondRange[1])
 
-		if isInRange(firstPairMin, secondPairMin, secondPairMax) || isInRange(firstPairMax, secondPairMin, secondPairMax) || isInRange(secondPairMin, firstPairMin, firstPairMax) && isInRange(secondPairMax, firstPairMin, firstPairMax) {
+		if isInRange(firstPairMin, secondPairMin, secondPairMax) || isInRange(firstPairMax, secondPairMin, secondPairMax) || isInRange(secondPairMin, firstPairMin, firstPairMax) || isInRange(secondPairMax, firstPairMin, firstPairMax) {
 			total++
 		}
 
@@ -41,4 +41,8 @@ func day4a() {
 	}
 
 	fmt.Println("Answer", total)
+}
+
+func isInRange(value int, min int, max int) bool {
+	return value >= min && value <= max
 }
