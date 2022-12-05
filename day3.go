@@ -46,22 +46,19 @@ func day3a() {
 
 		for i := range firstLetters {
 			if firstLetters[i] > 0 && secondLetters[i] > 0 {
-				fmt.Println(first, "-", second, "-", string((rune(i + 65))))
 				if i <= 25 {
 					// capital letter
 					score += i + 27
-					fmt.Println(i+27, "points for", string((rune(i + 65))))
 				} else {
 					// lowercase letter
 					score += (i - 32) + 1
-					fmt.Println((i - 32 + 1), "points for", string((rune(i + 65))))
 				}
 			}
 		}
 
 	}
 
-	fmt.Println("Answer", score)
+	fmt.Println("[Part 1]", score)
 }
 
 func day3b() {
@@ -100,15 +97,12 @@ func day3b() {
 
 			for i := range firstLetters {
 				if firstLetters[i] > 0 && secondLetters[i] > 0 && thirdLetters[i] > 0 {
-					fmt.Println(lines[0], "-", lines[1], "-", lines[2], "-", string((rune(i + 65))))
 					if i <= 25 {
 						// capital letter
 						score += i + 27
-						fmt.Println(i+27, "points for", string((rune(i + 65))))
 					} else {
 						// lowercase letter
 						score += (i - 32) + 1
-						fmt.Println((i - 32 + 1), "points for", string((rune(i + 65))))
 					}
 				}
 			}
@@ -118,5 +112,5 @@ func day3b() {
 
 	}
 
-	fmt.Println("Answer", score)
+	fmt.Println("[Part 2]", score)
 }

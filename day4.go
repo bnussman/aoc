@@ -38,14 +38,14 @@ func day4a() {
 		firstPairMax, _ := strconv.Atoi(firstRange[1])
 		secondPairMax, _ := strconv.Atoi(secondRange[1])
 
-		if isInRange(firstPairMin, secondPairMin, secondPairMax) || isInRange(firstPairMax, secondPairMin, secondPairMax) || isInRange(secondPairMin, firstPairMin, firstPairMax) && isInRange(secondPairMax, firstPairMin, firstPairMax) {
+		if isInRange(firstPairMin, secondPairMin, secondPairMax) && isInRange(firstPairMax, secondPairMin, secondPairMax) || isInRange(secondPairMin, firstPairMin, firstPairMax) && isInRange(secondPairMax, firstPairMin, firstPairMax) {
 			total++
 		}
 
-		fmt.Println("Pairs", firstRange, secondRange)
+		// fmt.Println("Pairs", firstRange, secondRange)
 	}
 
-	fmt.Println("Answer", total)
+	fmt.Println("[Part 1]", total)
 }
 
 func day4b() {
@@ -76,10 +76,10 @@ func day4b() {
 			total++
 		}
 
-		fmt.Println("Pairs", firstRange, secondRange)
+		// fmt.Println("Pairs", firstRange, secondRange)
 	}
 
-	fmt.Println("Answer", total)
+	fmt.Println("[Part 2]", total)
 }
 
 func isInRange(value int, min int, max int) bool {

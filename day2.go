@@ -79,7 +79,7 @@ func part1() {
 		}
 	}
 
-	fmt.Println(score)
+	fmt.Println("[Part 1]", score)
 }
 
 func part2() {
@@ -128,5 +128,5 @@ func part2() {
 		}
 	}
 
-	fmt.Println(score)
+	fmt.Println("[Part 2]", score)
 }
