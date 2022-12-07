@@ -134,7 +134,6 @@ func day5b() {
 
 		crateLetter := cratesToMove.Pop()
 		for crateLetter != nil {
-			fmt.Println("moving", crateLetter)
 			crates[to-1].Push(crateLetter)
 			crateLetter = cratesToMove.Pop()
 		}
