@@ -32,6 +32,19 @@ func (this *Stack) Print() {
 	fmt.Print("\n")
 }
 
+func (this *Stack) ToArray() []string {
+	array := make([]string, this.length)
+	idx := this.length - 1
+	node := this.top
+
+	for node != nil {
+		array[idx] = node.value.(string)
+		idx--
+		node = node.prev
+	}
+	return array
+}
+
 // View the top item on the stack
 func (this *Stack) Peek() interface{} {
 	if this.length == 0 {
