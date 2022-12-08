@@ -40,7 +40,7 @@ func day6a() {
 		}
 
 		if !hasDuplicates {
-			fmt.Println("[Part A]", i+distinctCharacters)
+			fmt.Println("[Part 1]", i+distinctCharacters)
 			break
 		}
 	}
@@ -73,7 +73,7 @@ func day6b() {
 		}
 
 		if !hasDuplicates {
-			fmt.Println("[Part B]", i+distinctCharacters)
+			fmt.Println("[Part 2]", i+distinctCharacters)
 			break
 		}
 	}

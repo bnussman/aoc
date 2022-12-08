@@ -139,10 +139,10 @@ func day5b() {
 		}
 	}
 
-	for i, val := range crates {
-		fmt.Printf("Crate %d - ", i+1)
-		val.Print()
-	}
+	// for i, val := range crates {
+	// 	fmt.Printf("Crate %d - ", i+1)
+	// 	val.Print()
+	// }
 
 	fmt.Print("[Part 2] ")
 	for _, val := range crates {
