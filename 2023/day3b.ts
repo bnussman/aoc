@@ -49,8 +49,11 @@ function getRowData(lineBefore: string | null, line: string, lineAfter: string |
 
       let starIndex: number | null = null;
 
+      let starLineIndex = lineIndex;
+
       if (lineBefore && doesStringContainSymbol(lineBefore.substring(i - 1, i + 2))) {
         starIndex = i + getStarIndex(lineBefore.substring(i - 1, i + 2)) - 1;
+        starLineIndex--;
         hasSymbol = true; 
       }
 
@@ -66,13 +69,14 @@ function getRowData(lineBefore: string | null, line: string, lineAfter: string |
 
       if (lineAfter && doesStringContainSymbol(lineAfter.substring(i - 1, i + 2))) {
         starIndex = i + getStarIndex(lineAfter.substring(i - 1, i + 2)) - 1;
+        starLineIndex++;
         hasSymbol = true; 
       }
 
       const starIndexes = rowData[currentNumberIndex]?.starIndexes ?? [];
     
-      if (starIndex !== null && !starIndexes.some(s => s.x === lineIndex && s.y === starIndex)) {
-        starIndexes.push({ x: lineIndex, y: starIndex });
+      if (starIndex !== null && !starIndexes.some(s => s.x === starLineIndex && s.y === starIndex)) {
+        starIndexes.push({ x: starLineIndex, y: starIndex });
       }
 
       rowData[currentNumberIndex] = {
