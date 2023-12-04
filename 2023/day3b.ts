@@ -2,9 +2,11 @@ const input = await Bun.file(`${import.meta.dir}/examples/day3`).text();
 
 const lines = input.split('\n');
 
-const stars: { position: [number, number], numbers: number[] }[] = [];
-
 let sum = 0;
+
+type NumberWithInfo = { value: string, starIndexes: Array<{ x: number, y: number }> }
+
+let numbersWithStars: NumberWithInfo[] = [];
 
 for (let i = 0; i < lines.length; i ++) {
   const lineBefore = i !== 0 ? lines[i - 1] : null;
@@ -13,17 +15,31 @@ for (let i = 0; i < lines.length; i ++) {
 
   const rowData = getRowData(lineBefore, currentLine, nextLine, i);
 
-  for (const item of rowData) {
-    if (item.hasSymbol) {
-      sum += Number(item.value)
-    }
-  }
+  numbersWithStars = [...numbersWithStars, ...rowData.filter(row => row.starIndexes.length > 0)];
 }
 
-console.log(sum);
+console.log(numbersWithStars);
+
+
+for (const val1 of numbersWithStars) {
+  console.log(val1)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function getRowData(lineBefore: string | null, line: string, lineAfter: string | null, lineIndex: number) {
-  const rowData: { value: string, hasSymbol: boolean }[] = [];
+  const rowData: NumberWithInfo[] = [];
   let currentNumberIndex = 0;
 
   for (let i = 0; i < line.length; i++) {
@@ -31,25 +47,37 @@ function getRowData(lineBefore: string | null, line: string, lineAfter: string |
 
       let hasSymbol = false;
 
+      let starIndex: number | null = null;
+
       if (lineBefore && doesStringContainSymbol(lineBefore.substring(i - 1, i + 2))) {
+        starIndex = i + getStarIndex(lineBefore.substring(i - 1, i + 2)) - 1;
         hasSymbol = true; 
       }
 
       if (i > 0 && doesStringContainSymbol(line[i - 1])) {
+        starIndex = i - 1;
         hasSymbol = true; 
       }
 
       if (line[i + 1] && doesStringContainSymbol(line[i + 1])) {
+        starIndex = i + 1;
+        hasSymbol = true; 
+       }
+
+      if (lineAfter && doesStringContainSymbol(lineAfter.substring(i - 1, i + 2))) {
+        starIndex = i + getStarIndex(lineAfter.substring(i - 1, i + 2)) - 1;
         hasSymbol = true; 
       }
 
-      if (lineAfter && doesStringContainSymbol(lineAfter.substring(i - 1, i + 2))) {
-        hasSymbol = true; 
+      const starIndexes = rowData[currentNumberIndex]?.starIndexes ?? [];
+    
+      if (starIndex !== null && !starIndexes.some(s => s.x === lineIndex && s.y === starIndex)) {
+        starIndexes.push({ x: lineIndex, y: starIndex });
       }
 
       rowData[currentNumberIndex] = {
         value: rowData[currentNumberIndex]?.value ? rowData[currentNumberIndex].value + line[i] : line[i],
-        hasSymbol: rowData[currentNumberIndex]?.hasSymbol || hasSymbol ? true : false
+        starIndexes
       };
     } else if (currentNumberIndex < rowData.length) {
       currentNumberIndex++;
@@ -65,7 +93,7 @@ function isNumber(s: string): boolean {
 
 function doesStringContainSymbol(s: string) {
   for (let i = 0; i < s.length; i++) {
-    if ("*" === s[i]) {
+    if (s[i] === "*") {
       return true;
     }
   }
@@ -73,3 +101,13 @@ function doesStringContainSymbol(s: string) {
   return false;
 }
 
+
+function getStarIndex(s: string) {
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === "*") {
+      return i;
+    }
+  }
+
+  throw new Error("no star");
+}
