@@ -1,4 +1,4 @@
-const input = await Bun.file(`${import.meta.dir}/examples/day3`).text();
+const input = await Bun.file(`${import.meta.dir}/inputs/day3`).text();
 
 const lines = input.split('\n');
 
@@ -20,13 +20,35 @@ for (let i = 0; i < lines.length; i ++) {
 
 console.log(numbersWithStars);
 
+const uniqueStars: NumberWithInfo["starIndexes"] = [];
 
-for (const val1 of numbersWithStars) {
-  console.log(val1)
+for (const number of numbersWithStars) {
+  for (const star of number.starIndexes) {
+    if (!uniqueStars.some(s => s.x === star.x && s.y === star.y)) {
+      uniqueStars.push(star)
+    }
+  }
 }
 
+console.log(uniqueStars);
 
+for (const star of uniqueStars) {
+  const numbersThatMatchStar: number[] = [];
 
+  for (const number of numbersWithStars) {
+    if (number.starIndexes.some(s => s.x === star.x && s.y === star.y)) {
+      numbersThatMatchStar.push(Number(number.value));
+    }
+  }
+
+  if (numbersThatMatchStar.length === 2) {
+    console.log("Found gear ratio", numbersThatMatchStar);
+
+    sum += numbersThatMatchStar[0] * numbersThatMatchStar[1]
+  }
+}
+
+console.log(sum)
 
 
 
@@ -49,34 +71,51 @@ function getRowData(lineBefore: string | null, line: string, lineAfter: string |
 
       let starIndex: number | null = null;
 
+      const starIndexes = rowData[currentNumberIndex]?.starIndexes ?? [];
+
       let starLineIndex = lineIndex;
 
       if (lineBefore && doesStringContainSymbol(lineBefore.substring(i - 1, i + 2))) {
         starIndex = i + getStarIndex(lineBefore.substring(i - 1, i + 2)) - 1;
         starLineIndex--;
         hasSymbol = true; 
+        console.log(`Line ${lineIndex} - has a * on line before (${starLineIndex}) at ${starIndex}`)
+
+
+        if (starIndex !== null && !starIndexes.some(s => s.x === starLineIndex && s.y === starIndex)) {
+          starIndexes.push({ x: starLineIndex, y: starIndex });
+        }
       }
 
       if (i > 0 && doesStringContainSymbol(line[i - 1])) {
         starIndex = i - 1;
         hasSymbol = true; 
+
+
+        if (starIndex !== null && !starIndexes.some(s => s.x === starLineIndex && s.y === starIndex)) {
+          starIndexes.push({ x: starLineIndex, y: starIndex });
+        }
       }
 
       if (line[i + 1] && doesStringContainSymbol(line[i + 1])) {
         starIndex = i + 1;
         hasSymbol = true; 
+
+
+        if (starIndex !== null && !starIndexes.some(s => s.x === starLineIndex && s.y === starIndex)) {
+          starIndexes.push({ x: starLineIndex, y: starIndex });
+        }
        }
 
       if (lineAfter && doesStringContainSymbol(lineAfter.substring(i - 1, i + 2))) {
         starIndex = i + getStarIndex(lineAfter.substring(i - 1, i + 2)) - 1;
         starLineIndex++;
         hasSymbol = true; 
-      }
 
-      const starIndexes = rowData[currentNumberIndex]?.starIndexes ?? [];
-    
-      if (starIndex !== null && !starIndexes.some(s => s.x === starLineIndex && s.y === starIndex)) {
-        starIndexes.push({ x: starLineIndex, y: starIndex });
+
+        if (starIndex !== null && !starIndexes.some(s => s.x === starLineIndex && s.y === starIndex)) {
+          starIndexes.push({ x: starLineIndex, y: starIndex });
+        }
       }
 
       rowData[currentNumberIndex] = {
