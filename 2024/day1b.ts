@@ -16,8 +16,6 @@ for (const line of lines) {
     }
 }
 
-console.table(occourMap)
-
 let similarityScore = 0;
 
 for (let i = 0; i < leftList.length; i++) {
