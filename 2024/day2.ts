@@ -25,6 +25,7 @@ function getIsReportSafe(levels: number[]): boolean {
         const newDirection = difference > 0 ? 'increasing' : 'decreasing';
 
         if (i > 1 && newDirection !== direction) {
+            // unsafe because levels are not all increasing or decreasing
             return false;
         }
 
