@@ -13,32 +13,27 @@ async function day1()  {
        }
    }
 
-   console.log("Total Safe:", count)
+   console.log("Part 1 - Total Safe:", count)
 }
 
 function getIsReportSafe(levels: number[]): boolean {
     let direction: 'increasing' | 'decreasing' = 'increasing';
 
-    for (let i = 0; i < levels.length; i++) {
-        if (i > 0) {
-            const previousLevel = levels[i - 1];
-            const difference = levels[i] - previousLevel;
+    for (let i = 1; i < levels.length; i++) {
+        const difference = levels[i] - levels[i - 1];
 
-            const newDirection = difference > 0 ? 'increasing' : 'decreasing';
+        const newDirection = difference > 0 ? 'increasing' : 'decreasing';
 
-            if (i <= 1) {
-                direction = newDirection;
-            } else {
-                if (newDirection !== direction) {
-                    return false;
-                }
-            }
+        if (i > 1 && newDirection !== direction) {
+            return false;
+        }
 
-            const absoluteDifference = Math.abs(difference)
+        direction = newDirection;
 
-            if (absoluteDifference < 1 || absoluteDifference > 3) {
-                return false;
-            }
+        const absoluteDifference = Math.abs(difference)
+
+        if (absoluteDifference < 1 || absoluteDifference > 3) {
+            return false;
         }
     }
 
@@ -67,16 +62,14 @@ async function day2() {
        const levels = report.split(' ').map(Number);
        const variations = getVariationsOfLevels(levels);
 
-       console.log(variations)
-
        if (getIsReportSafe(levels) || variations.some(variation => getIsReportSafe(variation))) {
            count++;
        }
    }
 
-   console.log("Total Safe:", count)
+   console.log("Part 2 - Total Safe:", count)
 }
 
 
-// day1()
+day1()
 day2()
