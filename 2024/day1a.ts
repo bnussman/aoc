@@ -1,10 +1,15 @@
-const data = await Bun.file("./inputs/day1").text();
-const lines = data.split('\n');
+import fs from 'fs';
+import readline from 'readline';
+
+const lineReader = readline.createInterface({
+    input: fs.createReadStream("./inputs/day1"),
+    crlfDelay: Infinity
+});
 
 const leftList: number[] = [];
 const rightList: number[] = [];
 
-for (const line of lines) {
+for await (const line of lineReader) {
     const [leftItem, rightItem] = line.split('  ');
     leftList.push(+leftItem);
     rightList.push(+rightItem);
@@ -16,8 +21,7 @@ rightList.sort();
 let total = 0;
 
 for (let i = 0; i < leftList.length; i++) {
-    const distance = Math.abs(leftList[i] - rightList[i]);
-    total += distance;
+    total += Math.abs(leftList[i] - rightList[i]);
 }
 
 console.log("Total", total)
