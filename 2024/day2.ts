@@ -34,6 +34,7 @@ function getIsReportSafe(levels: number[]): boolean {
         const absoluteDifference = Math.abs(difference)
 
         if (absoluteDifference < 1 || absoluteDifference > 3) {
+            // unsafe because two adjacent levels differ less than one or more than three
             return false;
         }
     }
@@ -42,7 +43,8 @@ function getIsReportSafe(levels: number[]): boolean {
 }
 
 function getVariationsOfLevels(levels: number[]) {
-    const arrs: Array<number[]> = []
+    const arrs: number[][] = []
+
     for (let i = 0; i < levels.length; i++) {
         const newArr = [...levels];
         newArr.splice(i,1)
@@ -61,9 +63,11 @@ async function day2() {
 
    for (const report of lines) {
        const levels = report.split(' ').map(Number);
+
+       // Is there a faster way than trying all variations of a report?
        const variations = getVariationsOfLevels(levels);
 
-       if (getIsReportSafe(levels) || variations.some(variation => getIsReportSafe(variation))) {
+       if (getIsReportSafe(levels) || variations.some(getIsReportSafe)) {
            count++;
        }
    }
