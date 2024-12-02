@@ -4,7 +4,6 @@ const lines = data.split('\n');
 const leftList: number[] = [];
 const rightList: number[] = [];
 
-
 for (const line of lines) {
     const [leftItem, rightItem] = line.split('  ');
     leftList.push(+leftItem);
@@ -14,16 +13,11 @@ for (const line of lines) {
 leftList.sort();
 rightList.sort();
 
-const distances: number[] = [];
+let total = 0;
 
 for (let i = 0; i < leftList.length; i++) {
     const distance = Math.abs(leftList[i] - rightList[i]);
-    distances.push(distance);
+    total += distance;
 }
-
-const total = distances.reduce((acc, distance) => {
-    acc += distance;
-    return acc;
-}, 0);
 
 console.log("Total", total)
