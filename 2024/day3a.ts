@@ -1,5 +1,6 @@
 const memory = await Bun.file("./inputs/day3").text();
 
+// I'm so sorry......
 const matches = memory.matchAll(/mul\(([0-9]+)\,([0-9]+)\)/gi)
 
 console.log("Memory", memory)
