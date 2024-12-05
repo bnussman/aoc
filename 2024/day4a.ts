@@ -1,86 +1,42 @@
-const input = await Bun.file("./examples/day4").text();
+const input = await Bun.file("./inputs/day4").text();
 
 const lines = input.trim().split("\n");
 
-const array: string[][] = [];
-const phrase = "XMAS";
+const data: string[][] = [];
+const EXPECTED = ["XMAS", "SAMX"];
 
 for (let i = 0; i < lines.length; i++) {
   const line = lines[i];
-  array[i] = line.split('');
+  data[i] = line.split('');
 }
 
-console.table(array);
+console.table(data);
+
+const words: string[] = [];
+
+for (let i = 0; i < data.length; i++) {
+  for (let j = 0; j < data[i].length; j++) {
+    const x = data[i][j] + data[i][j + 1] + data[i][j + 2] + data[i][j + 3];
+    words.push(x);
+
+    if (data[i + 3]) {
+      const y = data[i][j] + data[i + 1][j] + data[i + 2][j] + data[i + 3][j];
+      const diag1 = data[i][j] + data[i + 1][j + 1] + data[i + 2][j + 2] + data[i + 3][j + 3];
+      const diag2 = data[i][j] + data[i + 1][j - 1] + data[i + 2][j - 2] + data[i + 3][j - 3];
+
+      words.push(y);
+      words.push(diag1);
+      words.push(diag2);
+    }
+  }
+}
 
 let total = 0;
 
-for (let i = 0; i < array.length; i++) {
-  for (let j = 0; j < array[i].length; j++) {
-    const values = [
-      getX(i, j),
-      getY(i, j),
-      getDiag1(i, j),
-      getDiag2(i, j)
-      ].filter(value => value !== null);
-    console.log(values)
-
-    total += values.filter(vals => values.includes(phrase)).length
+for (const word of words) {
+  if (EXPECTED.includes(word)) {
+    total++;
   }
 }
 
 console.log('total', total)
-
-function getDiag1(row: number, column: number) {
-  if (row + phrase.length > array.length) {
-    return null;
-  }
-  if (column + phrase.length > array[row].length) {
-    return null;
-  }
-  let string = '';
-  for (let i = 0; i < phrase.length; i++) {
-    string += array[row + i][column + i];
-  }
-
-  if (string === phrase) {
-    return { start: {row, column}, end: { row: row + phrase.length, column: column + phrase.length }}
-  }
-  return string;
-}
-
-function getDiag2(row: number, column: number) {
-  if (row + phrase.length > array.length) {
-    return null;
-  }
-  if (column - (phrase.length -1) < 0) {
-    return null;
-  }
-  let string = '';
-  for (let i = 0; i < phrase.length; i++) {
-    string += array[row + i][column - i];
-  }
-  return string;
-}
-
-function getX(row: number, column: number) {
-  if (column + phrase.length > array[row].length) {
-    return null;
-  }
-  let string = '';
-  for (let i = column; i < column + phrase.length; i++) {
-    string += array[row][i];
-  }
-  return string;
-}
-
-
-function getY(row: number, column: number) {
-  if (row + phrase.length > array.length) {
-    return null;
-  }
-  let string = '';
-  for (let i = row; i < row + phrase.length; i++) {
-    string += array[i][column];
-  }
-  return string;
-}
